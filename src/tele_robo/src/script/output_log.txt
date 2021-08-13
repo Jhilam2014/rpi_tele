@@ -1,0 +1,1 @@
+raspistill -ss 10500000 -ISO 800 -r -q 100 -awb auto -ag 12.0 -drc high -o images/08-08-2021/test_1628441376.jpg
