@@ -33,17 +33,12 @@ class RightLayout(QWidget):
         self.container_2.setStyleSheet("background-color:#dedddc;")
         self.container_2.showMaximized()
         self.container_2.setVisible(False)
-        self.motorSet()
-
+        self.motorSet() 
         
     def scrollBarWidget(self,name,vMin,vMax,current):
         #label
         label = QLabel()
         label.setText(name)
-
-        #val
-        val = QLabel()
-        val.setText(str(current))
 
         #slider
         slider = QSlider(Qt.Horizontal)
@@ -52,6 +47,10 @@ class RightLayout(QWidget):
         slider.setMaximum(vMax)
         slider.setValue(current)
         slider.valueChanged[int].connect(val.setNum)
+
+        #val
+        val = QLabel()
+        val.setText(str(current))
 
         return [label,slider,val]
 
@@ -76,15 +75,17 @@ class RightLayout(QWidget):
         vMotorbox.addWidget(closePreviewButton)
 
         #Altitude control motor - manual slider bar
-        altSlider = self.scrollBarWidget('Altitude Speed',0,1000,0)
+        self.altSlider = self.scrollBarWidget('Altitude Speed',0,1000,0)
         #update alt information
         self.updateAltSpeed = QPushButton('Update Alt Speed')
         self.updateAltSpeed.setStyleSheet('background-color: #4B8BBE')
+        self.updateAltSpeed.clicked.connect(self.altButton)
         
         #Az control motor - manual slider bar
-        azSlider = self.scrollBarWidget('Azimuth Speed',0,1000,0)
+        self.azSlider = self.scrollBarWidget('Azimuth Speed',0,1000,0)
         self.updateAzSpeed = QPushButton('Update Az Speed')
         self.updateAzSpeed.setStyleSheet('background-color: #4B8BBE')
+        self.updateAzSpeed.clicked.connect(self.azButton)
         
         self.altTopBottom = QCheckBox()
         self.altTopBottom.setStyleSheet('''
@@ -98,7 +99,7 @@ class RightLayout(QWidget):
 
 
         for i in range(0,3):
-             vMotorbox.addWidget(altSlider[i])
+             vMotorbox.addWidget(self.altSlider[i])
         altHorizontalLayer = QHBoxLayout()
         altHorizontalLayer.addWidget(self.updateAltSpeed)
         altHorizontalLayer.addWidget(self.altTopBottom)
@@ -108,7 +109,7 @@ class RightLayout(QWidget):
         
        
         for i in range(0,3):
-             vMotorbox.addWidget(azSlider[i])
+             vMotorbox.addWidget(self.azSlider[i])
 
         self.azRightLeft = QCheckBox()
         self.azRightLeft.setStyleSheet('''
@@ -294,6 +295,13 @@ class RightLayout(QWidget):
         os.system('rostopic pub -1 /cam_control std_msgs/String cap_p100')
     def onClickClosePreview(self):
         os.system('rostopic pub -1 /cam_control std_msgs/String cap_p400')
+
+    def altButton(self):
+        os.system('rostopic pub -1 /motor_control std_msgs/String altmotor_'+str(self.altSlider[1].value())+'_'+str(self.altTopBottom.isChecked())+" -1")
+
+    def azButton(self):
+        os.system('rostopic pub -1 /motor_control std_msgs/String hrmotor_'+str(self.azSlider[1].value())+'_'+str(self.azRightLeft.isChecked())+" -1")
+
 
 class RpiStudio(QMainWindow):
 
