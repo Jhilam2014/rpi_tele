@@ -298,6 +298,7 @@ class RightLayout(QWidget):
         os.system('rostopic pub -1 /cam_control std_msgs/String cap_p400')
 
     def altButton(self):
+        rospy.loginfo('rostopic pub -1 /motor_control std_msgs/String altmotor_'+str(self.altSlider[1].value())+'_'+str(self.altTopBottom.isChecked())+" -1")
         os.system('rostopic pub -1 /motor_control std_msgs/String altmotor_'+str(self.altSlider[1].value())+'_'+str(self.altTopBottom.isChecked())+" -1")
 
     def azButton(self):
