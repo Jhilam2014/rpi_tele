@@ -40,6 +40,10 @@ class RightLayout(QWidget):
         label = QLabel()
         label.setText(name)
 
+        #val
+        val = QLabel()
+        val.setText(str(current))
+
         #slider
         slider = QSlider(Qt.Horizontal)
         slider.setFocusPolicy(Qt.NoFocus)
@@ -48,9 +52,6 @@ class RightLayout(QWidget):
         slider.setValue(current)
         slider.valueChanged[int].connect(val.setNum)
 
-        #val
-        val = QLabel()
-        val.setText(str(current))
 
         return [label,slider,val]
 
