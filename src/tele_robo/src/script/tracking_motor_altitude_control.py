@@ -51,6 +51,13 @@ class MotorControl:
         altMotorSub = rospy.Subscriber('motor_control',String, self.callBack)
         rospy.spin()
 
+    def directionMsgParse(self,msg):
+        if msg == 'False':
+            msg = 0
+        else:
+            msg = 1
+        return msg
+
     def callBack(self,msg):
         rospy.loginfo(msg.data)
         msg_type = (msg.data).split('_')
@@ -59,13 +66,13 @@ class MotorControl:
             self.stopAltMotor = False
             time.sleep(2)
             rospy.loginfo("init"+(msg_type[1])+(msg_type[2]))
-            self.altRun(int(msg_type[1]),int(msg_type[2]))
+            self.altRun(int(msg_type[1]),self.directionMsgParse(msg_type[2]))
        
         elif msg_type[0] == 'hrmotor':
             self.stopHRMotor = False
             time.sleep(2)
             rospy.loginfo("init"+(msg_type[1])+(msg_type[2]))
-            self.hrRun(int(msg_type[1]),int(msg_type[2]))
+            self.hrRun(int(msg_type[1]),self.directionMsgParse(msg_type[2]))
         
           
     def testMotor(self):
