@@ -1,6 +1,6 @@
 <launch>
     <node pkg="tele_robo" type="camera.py" name="primary_camera" cwd="node"/>
-    <!-- <node pkg="tele_robo" type="tracking_motor_altitude_control.py" name="alt_motor" cwd="node"/> -->
+    <node pkg="tele_robo" type="tracking_motor_altitude_control.py" name="alt_motor" cwd="node"/>
     <node pkg="tele_robo" type="interface.py" name="widget_gui" cwd="node"/>
     <!-- <include file="$(find tele_dash)/src/launch/dash.launch" /> -->
     <!-- <node pkg="tele_dash" type="server.py" name="dash" cwd="node" /> -->

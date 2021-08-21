@@ -93,7 +93,7 @@ class MotorControl:
 
     def altRun(self,speed,dirV):
         self.stopAltMotor = True
-        speed = float(speed)/float(100)
+        speed = float(speed)/float(10)
         while self.stopAltMotor == True:
             print(speed)
             rospy.loginfo(str(speed))
@@ -115,7 +115,7 @@ class MotorControl:
         #time.sleep(1)
 
     def contHrRun(self,speed,dirV):
-        speed = abs(float(speed)/float(100))
+        speed = abs(float(speed)/float(10))
         rospy.loginfo(str(speed))
         self.pulseWidthHr.ChangeDutyCycle(speed)
         if dirV==1:
