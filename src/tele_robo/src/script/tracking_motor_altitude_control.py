@@ -94,18 +94,29 @@ class MotorControl:
     def altRun(self,speed,dirV):
         self.stopAltMotor = True
         speed = float(speed)/float(10)
-        while self.stopAltMotor == True:
-            print(speed)
-            rospy.loginfo(str(speed))
-            self.pulseWidthAlt.ChangeDutyCycle(speed)
-            if dirV==1:
-                rospy.loginfo("right")
-                GPIO.output(self.PIN_INPUT_ALT_1,GPIO.HIGH)
-                GPIO.output(self.PIN_INPUT_ALT_2,GPIO.LOW)
-            else:
-                rospy.loginfo("left")
-                GPIO.output(self.PIN_INPUT_ALT_1,GPIO.LOW)
-                GPIO.output(self.PIN_INPUT_ALT_2,GPIO.HIGH)
+        rospy.loginfo(str(speed))
+        self.pulseWidthAlt.stop()
+        self.pulseWidthAlt.start(speed)
+        if dirV==1:
+            rospy.loginfo("right")
+            GPIO.output(self.PIN_INPUT_ALT_1,GPIO.HIGH)
+            GPIO.output(self.PIN_INPUT_ALT_2,GPIO.LOW)
+        else:
+            rospy.loginfo("left")
+            GPIO.output(self.PIN_INPUT_ALT_1,GPIO.LOW)
+            GPIO.output(self.PIN_INPUT_ALT_2,GPIO.HIGH)
+        # while self.stopAltMotor == True:
+        #     print(speed)
+        #     rospy.loginfo(str(speed))
+        #     self.pulseWidthAlt.ChangeDutyCycle(speed)
+        #     if dirV==1:
+        #         rospy.loginfo("right")
+        #         GPIO.output(self.PIN_INPUT_ALT_1,GPIO.HIGH)
+        #         GPIO.output(self.PIN_INPUT_ALT_2,GPIO.LOW)
+        #     else:
+        #         rospy.loginfo("left")
+        #         GPIO.output(self.PIN_INPUT_ALT_1,GPIO.LOW)
+        #         GPIO.output(self.PIN_INPUT_ALT_2,GPIO.HIGH)
 
     def tracking(self,xIn,yIn):
         initSpeedController = SpeedController()
@@ -129,7 +140,7 @@ class MotorControl:
     
 
     def contAltRun(self,speed,dirV):
-        speed = abs(float(speed)/float(100))
+        speed = abs(float(speed)/float(10))
         rospy.loginfo(str(speed))
         self.pulseWidthAlt.ChangeDutyCycle(speed)
         if dirV==1:
@@ -146,7 +157,7 @@ class MotorControl:
     
     def hrRun(self,speed,dirV):
         self.stopHRMotor = True
-        speed = float(speed)/float(100)
+        speed = float(speed)/float(10)
         while self.stopHRMotor == True:
             rospy.loginfo(str(speed))
             self.pulseWidthHr.ChangeDutyCycle(speed)
