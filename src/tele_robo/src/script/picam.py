@@ -56,8 +56,8 @@ class CameraFunctions:
         self.current_iso = copy.deepcopy(int(_iso))
         self.cam.iso = int(_iso)
 
-        self.current_shutter_speed = copy.deepcopy(int(_shutter)*10**5)
-        self.cam.shutter_speed = int(_shutter)*10**5
+        self.current_shutter_speed = copy.deepcopy(int(_shutter)*10**3)
+        self.cam.shutter_speed = int(_shutter)*10**3
 
         self.current_frame_rate = copy.deepcopy(int(_frames))
         self.cam.framerate = int(_frames)

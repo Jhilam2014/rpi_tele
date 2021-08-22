@@ -163,7 +163,7 @@ class RightLayout(QWidget):
         #scroller : ISO value
         self.isoValGroup = self.scrollBarWidget("ISO",100,800,100)
         #Shutter speed Value
-        self.shutterSpeedGroup = self.scrollBarWidget('Shutter Speed',1,200,1)
+        self.shutterSpeedGroup = self.scrollBarWidget('Shutter Speed',1,10000,1)
         #Number of Images for long shot
         self.numberImageGroup = self.scrollBarWidget('Number of Images for Long Shot',1,100,1)
 
