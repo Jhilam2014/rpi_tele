@@ -1,4 +1,4 @@
-from picam import CameraFunctions
+# from picam import CameraFunctions
 from flask import Flask
 import cv2
 from imutils.video.pivideostream import PiVideoStream
