@@ -5,12 +5,14 @@
 import io
 import picamera
 import logging
+import time
 import socketserver
 from threading import Condition
 from http import server
+from flask import Flask
 
 PAGE="""\
-    html>
+    <html>
         <head>
         </head>
         <body>
@@ -84,11 +86,31 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     daemon_threads = True
     
 
-with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
-    output = StreamingOutput()
-    camera.rotation = 90
-    camera.iso = 800
-    camera.shutter_speed = 200*10**3
+# with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
+#     output = StreamingOutput()
+#     camera.rotation = 90
+#     camera.iso = 800
+#     camera.shutter_speed = 200*10**3
+#     camera.start_recording(output, format='mjpeg')
+#     try:
+#         address = ('', 8000)
+#         server = StreamingServer(address, StreamingHandler)
+#         server.serve_forever()
+#     finally:
+#         camera.stop_recording()
+
+camera = picamera.PiCamera(resolution='640x480', framerate=24)
+
+output = StreamingOutput()
+time.sleep(2)
+camera.rotation = 90
+camera.iso = 800
+camera.shutter_speed = 200*10**3
+
+app = Flask(__name__)
+
+@app.route('/')
+def run():
     camera.start_recording(output, format='mjpeg')
     try:
         address = ('', 8000)
@@ -96,24 +118,5 @@ with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
         server.serve_forever()
     finally:
         camera.stop_recording()
-
-camera = picamera.PiCamera(resolution='640x480', framerate=24)
-
-# output = StreamingOutput()
-# time.sleep(2)
-# camera.rotation = 90
-# camera.iso = 800
-# camera.shutter_speed = 200*10**3
-# camera.start_recording(output, format='mjpeg')
-# app = Flask(__name__)
-
-# @app.route('/')
-# def run():
-#     try:
-#         address = ('', 8000)
-#         server = StreamingServer(address, StreamingHandler)
-#         server.serve_forever()
-#     finally:
-#         camera.stop_recording()
-# if __name__ == '__main__':
-#    app.run(host='0.0.0.0',port=8080,debug=True)
+if __name__ == '__main__':
+   app.run(host='0.0.0.0',port=8080,debug=True)
