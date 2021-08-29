@@ -8,7 +8,7 @@ import logging
 import socketserver
 from threading import Condition
 from http import server
-import flask as Flask
+from flask import Flask, render_template, Response, request
 PAGE="""\
 <html>
 <head>
