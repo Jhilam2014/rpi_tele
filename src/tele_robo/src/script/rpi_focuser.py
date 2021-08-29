@@ -24,7 +24,6 @@ PAGE="""\
         </body>
 </html>
 """
-output = None
 class StreamingOutput(object):
     def __init__(self):
         self.frame = None
@@ -102,12 +101,12 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
 
 
 app = Flask(__name__)
-
+output = StreamingOutput()
 @app.route('/gs')
 def run():
     camera = picamera.PiCamera(resolution='640x480', framerate=24)
 
-    output = StreamingOutput()
+    
     time.sleep(2)
     camera.rotation = 90
     camera.iso = 800
