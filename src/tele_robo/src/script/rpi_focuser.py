@@ -5,7 +5,6 @@ from imutils.video.pivideostream import PiVideoStream
 import time
 import numpy as np
 from flask import Flask, render_template, Response, request
-from camera import VideoCamera
 import time
 import threading
 import os
