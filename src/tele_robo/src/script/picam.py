@@ -103,26 +103,8 @@ class CameraFunctions:
         except:
             pass
         for _ in range(int(nI)):
-            todayNow = datetime.now()
-            awbV = '-awb '+self.current_awb_mode
-            os.system('raspistill -ss '+str(self.current_shutter_speed)+ \
-                ' -ISO '+str(self.current_iso)+ \
-                ' -r -q 100 '+awbV+ \
-                ' -ag '+str(self.current_analog_gain)+ \
-                ' -drc '+str(self.drc) +\
-                ' -tl 1000'+\
-                ' -o images/'+str(today.strftime("%d-%m-%Y"))+"/"+str(name)+'_'+str(todayNow.strftime('%H_%M_%S_%f'))+'.jpg')
-
-        try:
-            with open('/home/pi/Documents/rpiTele/output_log.txt','w') as f:
-                f.write('raspistill -ss '+str(self.current_shutter_speed)+ \
-                ' -ISO '+str(self.current_iso)+ \
-                ' -r -q 100 '+awbV+ \
-                ' -ag '+str(self.current_analog_gain)+ \
-                ' -drc '+str(self.drc) +\
-                ' -o images/'+str(today.strftime("%d-%m-%Y"))+"/"+str(name)+'_'+str(int(time.time()))+'.jpg')
-        except Exception as error:
-            print(error)
+            self.takePic()
+ 
 
     def videoCapture(self):
         try:
