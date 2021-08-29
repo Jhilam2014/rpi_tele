@@ -3,6 +3,7 @@
 # http://picamera.readthedocs.io/en/latest/recipes2.html#web-streaming
 
 import io
+import time
 import picamera
 import logging
 import socketserver
@@ -86,6 +87,7 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
 camera = picamera.PiCamera(resolution='640x480', framerate=24)
 
 output = StreamingOutput()
+time.sleep(2)
 camera.rotation = 90
 camera.iso = 800
 camera.shutter_speed = 200*10**3
