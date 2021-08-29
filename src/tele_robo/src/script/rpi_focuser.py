@@ -3,13 +3,12 @@
 # http://picamera.readthedocs.io/en/latest/recipes2.html#web-streaming
 
 import io
-import time
 import picamera
 import logging
 import socketserver
 from threading import Condition
 from http import server
-from flask import Flask
+
 PAGE="""\
     html>
         <head>
@@ -83,24 +82,38 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
 class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
     daemon_threads = True
+    
 
-camera = picamera.PiCamera(resolution='640x480', framerate=24)
-
-output = StreamingOutput()
-time.sleep(2)
-camera.rotation = 90
-camera.iso = 800
-camera.shutter_speed = 200*10**3
-camera.start_recording(output, format='mjpeg')
-app = Flask(__name__)
-
-@app.route('/')
-def run():
+with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
+    output = StreamingOutput()
+    camera.rotation = 90
+    camera.iso = 800
+    camera.shutter_speed = 200*10**3
+    camera.start_recording(output, format='mjpeg')
     try:
         address = ('', 8000)
         server = StreamingServer(address, StreamingHandler)
         server.serve_forever()
     finally:
         camera.stop_recording()
-if __name__ == '__main__':
-   app.run(host='0.0.0.0',port=8080,debug=True)
+
+camera = picamera.PiCamera(resolution='640x480', framerate=24)
+
+# output = StreamingOutput()
+# time.sleep(2)
+# camera.rotation = 90
+# camera.iso = 800
+# camera.shutter_speed = 200*10**3
+# camera.start_recording(output, format='mjpeg')
+# app = Flask(__name__)
+
+# @app.route('/')
+# def run():
+#     try:
+#         address = ('', 8000)
+#         server = StreamingServer(address, StreamingHandler)
+#         server.serve_forever()
+#     finally:
+#         camera.stop_recording()
+# if __name__ == '__main__':
+#    app.run(host='0.0.0.0',port=8080,debug=True)
