@@ -24,7 +24,7 @@ PAGE="""\
         </body>
 </html>
 """
-output = None
+
 class StreamingOutput(object):
     def __init__(self):
         self.frame = None
@@ -43,7 +43,7 @@ class StreamingOutput(object):
         return self.buffer.write(buf)
 
 class StreamingHandler(server.BaseHTTPRequestHandler):
-    def do_GET(self):
+    def do_GET(self,output):
         if self.path == '/':
             self.send_response(301)
             self.send_header('Location', '/index.html')
@@ -112,7 +112,7 @@ def run():
         camera.start_recording(output, format='mjpeg')
     try:
         address = ('', 8000)
-        server = StreamingServer(address, StreamingHandler)
+        server = StreamingServer(address, StreamingHandler(output))
         server.serve_forever()
     finally:
         camera.stop_recording()
