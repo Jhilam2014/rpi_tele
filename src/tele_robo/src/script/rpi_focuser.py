@@ -28,7 +28,7 @@ app = Flask(__name__)
 @app.route('/')
 def run():
     client_socket = socket.socket()
-    client_socket.connect(('127.0.0.1', 80))
+    client_socket.connect(('127.0.0.1', 8000))
     connection = client_socket.makefile('wb')
     try:
         output = SplitFrames(connection)
