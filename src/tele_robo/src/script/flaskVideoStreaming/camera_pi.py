@@ -2,7 +2,7 @@ import io
 import time
 import picamera
 from base_camera import BaseCamera
-from PIL import Image
+import numpy as np
 
 class Camera(BaseCamera):
     @staticmethod
@@ -12,26 +12,10 @@ class Camera(BaseCamera):
             time.sleep(2)
             camera.shutter_speed = 6000000
             camera.iso = 800
-            # Load the arbitrarily sized image
-            img = Image.open('overlay.png')
-            # Create an image padded to the required size with
-            # mode 'RGB'
-            pad = Image.new('RGB', (
-                ((img.size[0] + 31) // 32) * 32,
-                ((img.size[1] + 15) // 16) * 16,
-                ))
-            # Paste the original image into the padded one
-            pad.paste(img, (0, 0))
-
-            # Add the overlay with the padded image as the source,
-            # but the original image's dimensions
-            o = camera.add_overlay(pad.tobytes(), size=img.size)
-            # By default, the overlay is in layer 0, beneath the
-            # preview (which defaults to layer 2). Here we make
-            # the new overlay semi-transparent, then move it above
-            # the preview
-            o.alpha = 128
-            o.layer = 3
+            a = np.zeros((720, 1280, 3), dtype=np.uint8)
+            a[360, :, :] = 0xff
+            a[:, 640, :] = 0xff
+            o = camera.add_overlay(np.getbuffer(a), layer=3, alpha=64)
             stream = io.BytesIO()
             for _ in camera.capture_continuous(stream, 'jpeg',
                                                  use_video_port=True):
