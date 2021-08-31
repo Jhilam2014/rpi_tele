@@ -17,6 +17,18 @@
       context.stroke();
       context.strokeStyle = '#808000';
        }
+
+
+       make_base();
+
+      function make_base()
+      {
+        base_image = new Image();
+        base_image.src = "{{ url_for('video_feed') }}";
+        base_image.onload = function(){
+          context.drawImage(base_image, 0, 0);
+        }
+      }
     </script>
   <body>
     <canvas width="640" height="480" id="can">
