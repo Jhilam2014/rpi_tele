@@ -1,39 +1,7 @@
 <html>
   <head>
   </head>
-  <script>  
-    var canvas = document.getElementById('can');
-    //Always check for properties and methods, to make sure your code doesn't break in other browsers.
-    if (canvas.getContext) 
-     {
-      var context = canvas.getContext('2d');
-      // Reset the current path
-      context.beginPath(); 
-      // Staring point (10,45)
-       context.moveTo(10,45);
-      // End point (180,47)
-      context.lineTo(180,47);
-      // Make the line visible
-      context.stroke();
-      context.strokeStyle = '#808000';
-       }
-
-
-       make_base();
-
-      function make_base()
-      {
-        base_image = new Image();
-        base_image.src = "{{ url_for('video_feed') }}";
-        base_image.onload = function(){
-          context.drawImage(base_image, 0, 0);
-        }
-      }
-    </script>
   <body>
-    <canvas width="640" height="480" id="can">
-      <img src="{{ url_for('video_feed') }}">
-    </canvas>
-    
+    <img src="{{ url_for('video_feed') }}">
   </body>
 </html>
