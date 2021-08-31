@@ -1,120 +1,50 @@
-# Web streaming example
-# Source code from the official PiCamera package
-# http://picamera.readthedocs.io/en/latest/recipes2.html#web-streaming
-
 import io
-import picamera
-import logging
+import socket
+import struct
 import time
-import socketserver
-from threading import Condition
-from http import server
+import picamera
 from flask import Flask
 
-PAGE="""\
-    <html>
-        <head>
-        </head>
-        <body>
-            <center>
-                <canvas width="1280" height="720">
-                    <img src="stream.mjpg" width="640" height="480">
-                </canvas>
-            </center>
-        </body>
-</html>
-"""
-
-class StreamingOutput(object):
-    def __init__(self):
-        self.frame = None
-        self.buffer = io.BytesIO()
-        self.condition = Condition()
+class SplitFrames(object):
+    def __init__(self, connection):
+        self.connection = connection
+        self.stream = io.BytesIO()
+        self.count = 0
 
     def write(self, buf):
         if buf.startswith(b'\xff\xd8'):
-            # New frame, copy the existing buffer's content and notify all
-            # clients it's available
-            self.buffer.truncate()
-            with self.condition:
-                self.frame = self.buffer.getvalue()
-                self.condition.notify_all()
-            self.buffer.seek(0)
-        return self.buffer.write(buf)
-
-class StreamingHandler(server.BaseHTTPRequestHandler):
-    def do_GET(self,output):
-        if self.path == '/':
-            self.send_response(301)
-            self.send_header('Location', '/index.html')
-            self.end_headers()
-        elif self.path == '/index.html':
-            content = PAGE.encode('utf-8')
-            self.send_response(200)
-            self.send_header('Content-Type', 'text/html')
-            self.send_header('Content-Length', len(content))
-            self.end_headers()
-            self.wfile.write(content)
-        elif self.path == '/stream.mjpg':
-            self.send_response(200)
-            self.send_header('Age', 0)
-            self.send_header('Cache-Control', 'no-cache, private')
-            self.send_header('Pragma', 'no-cache')
-            self.send_header('Content-Type', 'multipart/x-mixed-replace; boundary=FRAME')
-            self.end_headers()
-            try:
-                while True:
-                    with output.condition:
-                        output.condition.wait()
-                        frame = output.frame
-                    self.wfile.write(b'--FRAME\r\n')
-                    self.send_header('Content-Type', 'image/jpeg')
-                    self.send_header('Content-Length', len(frame))
-                    self.end_headers()
-                    self.wfile.write(frame)
-                    self.wfile.write(b'\r\n')
-            except Exception as e:
-                logging.warning(
-                    'Removed streaming client %s: %s',
-                    self.client_address, str(e))
-        else:
-            self.send_error(404)
-            self.end_headers()
-
-class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
-    allow_reuse_address = True
-    daemon_threads = True
-    
-
-# with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
-#     output = StreamingOutput()
-#     camera.rotation = 90
-#     camera.iso = 800
-#     camera.shutter_speed = 200*10**3
-#     camera.start_recording(output, format='mjpeg')
-#     try:
-#         address = ('', 8000)
-#         server = StreamingServer(address, StreamingHandler)
-#         server.serve_forever()
-#     finally:
-#         camera.stop_recording()
-
-
-
+            # Start of new frame; send the old one's length
+            # then the data
+            size = self.stream.tell()
+            if size > 0:
+                self.connection.write(struct.pack('<L', size))
+                self.connection.flush()
+                self.stream.seek(0)
+                self.connection.write(self.stream.read(size))
+                self.count += 1
+                self.stream.seek(0)
+        self.stream.write(buf)
 app = Flask(__name__)
 @app.route('/')
 def run():
-    with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
-        output = StreamingOutput()
-        camera.rotation = 90
-        camera.iso = 800
-        camera.shutter_speed = 200*10**3
-        camera.start_recording(output, format='mjpeg')
+    client_socket = socket.socket()
+    client_socket.connect(('my_server', 8000))
+    connection = client_socket.makefile('wb')
     try:
-        address = ('', 8000)
-        server = StreamingServer(address, StreamingHandler(output))
-        server.serve_forever()
+        output = SplitFrames(connection)
+        with picamera.PiCamera(resolution='VGA', framerate=30) as camera:
+            time.sleep(2)
+            start = time.time()
+            camera.start_recording(output, format='mjpeg')
+            camera.wait_recording(30)
+            camera.stop_recording()
+            # Write the terminating 0-length to the connection to let the
+            # server know we're done
+            connection.write(struct.pack('<L', 0))
     finally:
-        camera.stop_recording()
+        connection.close()
+        client_socket.close()
+        finish = time.time()
+    print('Sent %d images in %d seconds at %.2ffps' % (output.count, finish-start, output.count / (finish-start)))
 if __name__ == '__main__':
    app.run(host='0.0.0.0',port=8080,debug=True)
