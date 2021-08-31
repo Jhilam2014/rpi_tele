@@ -16,7 +16,7 @@ class Camera(BaseCamera):
             a = np.zeros((720, 1280, 3), dtype=np.uint8)
             a[360, :, :] = 0xff
             a[:, 640, :] = 0xff
-            o = camera.add_overlay(a.tobytes(), layer=3, alpha=64)
+            camera.add_overlay(a.tobytes(), layer=3, alpha=64)
             camera.annotate_text = 'Hello world!'
             stream = io.BytesIO()
             for _ in camera.capture_continuous(stream, 'jpeg',
@@ -28,4 +28,3 @@ class Camera(BaseCamera):
                 # reset stream for next frame
                 stream.seek(0)
                 stream.truncate()
-                camera.capture('foo.jpg')
