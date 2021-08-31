@@ -3,7 +3,6 @@ import socket
 import struct
 import time
 import picamera
-from flask import Flask
 
 class SplitFrames(object):
     def __init__(self, connection):
@@ -24,27 +23,24 @@ class SplitFrames(object):
                 self.count += 1
                 self.stream.seek(0)
         self.stream.write(buf)
-app = Flask(__name__)
-@app.route('/')
-def run():
-    client_socket = socket.socket()
-    client_socket.connect(('my_server', 8000))
-    connection = client_socket.makefile('wb')
-    try:
-        output = SplitFrames(connection)
-        with picamera.PiCamera(resolution='VGA', framerate=30) as camera:
-            time.sleep(2)
-            start = time.time()
-            camera.start_recording(output, format='mjpeg')
-            camera.wait_recording(30)
-            camera.stop_recording()
-            # Write the terminating 0-length to the connection to let the
-            # server know we're done
-            connection.write(struct.pack('<L', 0))
-    finally:
-        connection.close()
-        client_socket.close()
-        finish = time.time()
-    print('Sent %d images in %d seconds at %.2ffps' % (output.count, finish-start, output.count / (finish-start)))
-if __name__ == '__main__':
-   app.run(host='0.0.0.0',port=8080,debug=True)
+
+client_socket = socket.socket()
+client_socket.connect(('my_server', 8000))
+connection = client_socket.makefile('wb')
+try:
+    output = SplitFrames(connection)
+    with picamera.PiCamera(resolution='VGA', framerate=30) as camera:
+        time.sleep(2)
+        start = time.time()
+        camera.start_recording(output, format='mjpeg')
+        camera.wait_recording(30)
+        camera.stop_recording()
+        # Write the terminating 0-length to the connection to let the
+        # server know we're done
+        connection.write(struct.pack('<L', 0))
+finally:
+    connection.close()
+    client_socket.close()
+    finish = time.time()
+print('Sent %d images in %d seconds at %.2ffps' % (
+    output.count, finish-start, output.count / (finish-start)))
