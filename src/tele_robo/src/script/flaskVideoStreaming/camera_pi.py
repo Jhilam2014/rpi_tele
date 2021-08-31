@@ -15,7 +15,7 @@ class Camera(BaseCamera):
             a = np.zeros((720, 1280, 3), dtype=np.uint8)
             a[360, :, :] = 0xff
             a[:, 640, :] = 0xff
-            o = camera.add_overlay(np.getbuffer(a), layer=3, alpha=64)
+            o = camera.add_overlay(a.tobytes(), layer=3, alpha=64)
             stream = io.BytesIO()
             for _ in camera.capture_continuous(stream, 'jpeg',
                                                  use_video_port=True):
