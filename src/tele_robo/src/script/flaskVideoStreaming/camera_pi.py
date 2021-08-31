@@ -10,6 +10,7 @@ class Camera(BaseCamera):
         with picamera.PiCamera() as camera:
             # let camera warm up
             time.sleep(2)
+            camera.resolution = (1280, 720)
             camera.shutter_speed = 6000000
             camera.iso = 800
             a = np.zeros((720, 1280, 3), dtype=np.uint8)
