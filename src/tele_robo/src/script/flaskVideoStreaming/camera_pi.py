@@ -18,7 +18,7 @@ class Camera(BaseCamera):
             a = np.zeros((((922 + 15) // 16) * 16, ((1640 + 31) // 32) * 32, 4), dtype=np.uint8)
             a[360, :, :] = 0xff
             a[:, 640, :] = 0xff
-            o = camera.add_overlay(a.tobytes(),format='rgba', size=(zx,zy), window =(10,72,zx,zy),fullscreen = False)
+            o = camera.add_overlay(a.tobytes(),format='rgba', size=(640,400), window =(10,72,640,400),fullscreen = False)
             o.alpha=64
             o.layer=3
 
