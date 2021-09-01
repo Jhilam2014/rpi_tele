@@ -14,6 +14,18 @@ class Camera(BaseCamera):
             camera.shutter_speed = 6000000
             camera.iso = 800
             camera.annotate_text = '+'
+
+            a = np.zeros((((922 + 15) // 16) * 16, ((1640 + 31) // 32) * 32, 4), dtype=np.uint8)
+            zx = 640
+            zy = 400
+            a[zy/2, :, :] = 0xff
+            a[:, zx/2, :] = 0xff
+            o = camera.add_overlay(a.tobytes(),format='rgba', size=(zx,zy), window =(10,72,zx,zy),fullscreen = False)
+            o.alpha=64
+            o.layer=3
+
+
+
             camera.framerate = 24
             stream = io.BytesIO()
             for _ in camera.capture_continuous(stream, 'jpeg',
