@@ -16,10 +16,8 @@ class Camera(BaseCamera):
             camera.annotate_text = '+'
 
             a = np.zeros((((922 + 15) // 16) * 16, ((1640 + 31) // 32) * 32, 4), dtype=np.uint8)
-            zx = 640
-            zy = 400
-            a[zy/2, :, :] = 0xff
-            a[:, zx/2, :] = 0xff
+            a[360, :, :] = 0xff
+            a[:, 640, :] = 0xff
             o = camera.add_overlay(a.tobytes(),format='rgba', size=(zx,zy), window =(10,72,zx,zy),fullscreen = False)
             o.alpha=64
             o.layer=3
