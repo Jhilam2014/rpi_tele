@@ -10,10 +10,11 @@ class Camera(BaseCamera):
         with picamera.PiCamera() as camera:
             # let camera warm up
             time.sleep(2)
-            camera.resolution = (1280, 720)
+            camera.resolution = (640, 400)
             camera.shutter_speed = 6000000
             camera.iso = 800
             camera.annotate_text = '+'
+            camera.framerate = 24
             stream = io.BytesIO()
             for _ in camera.capture_continuous(stream, 'jpeg',
                                                  use_video_port=True):
