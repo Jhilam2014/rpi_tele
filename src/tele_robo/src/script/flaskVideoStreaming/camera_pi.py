@@ -3,7 +3,6 @@ import time
 import picamera
 from base_camera import BaseCamera
 import numpy as np
-from PIL import Image
 
 class Camera(BaseCamera):
     @staticmethod
@@ -11,13 +10,12 @@ class Camera(BaseCamera):
         with picamera.PiCamera() as camera:
             # let camera warm up
             time.sleep(2)
-            camera.resolution = (640,480)
-            camera.shutter_speed = 600000
+            camera.resolution = (1280, 720)
+            camera.shutter_speed = 6000000
             camera.iso = 800
-            camera.framerate = 24
-            
+            camera.annotate_text = '+'
             stream = io.BytesIO()
-            for _ in camera.capture_continuous(stream, 'png',
+            for _ in camera.capture_continuous(stream, 'jpeg',
                                                  use_video_port=True):
                 # return current frame
                 stream.seek(0)
