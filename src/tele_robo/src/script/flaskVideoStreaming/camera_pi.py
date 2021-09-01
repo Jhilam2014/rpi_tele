@@ -15,9 +15,10 @@ class Camera(BaseCamera):
             camera.iso = 800
             camera.annotate_text = '+'
 
-            a = np.zeros((((922 + 15) // 16) * 16, ((1640 + 31) // 32) * 32, 4), dtype=np.uint8)
+            a = np.zeros((400, 640, 3), dtype=np.uint8)
             a[360, :, :] = 0xff
             a[:, 640, :] = 0xff
+
             o = camera.add_overlay(a.tobytes(),format='rgba', size=(640,400), window =(10,72,640,400),fullscreen = False)
             o.alpha=64
             o.layer=3
@@ -26,7 +27,7 @@ class Camera(BaseCamera):
 
             camera.framerate = 24
             stream = io.BytesIO()
-            for _ in camera.capture_continuous(stream, 'jpeg',
+            for _ in camera.capture_continuous(stream, 'png',
                                                  use_video_port=True):
                 # return current frame
                 stream.seek(0)
