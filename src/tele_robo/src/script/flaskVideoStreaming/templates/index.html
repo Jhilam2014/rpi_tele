@@ -2,13 +2,24 @@
   <head>
   </head>
   <body>
-    <div class="video-wrapper">
-      <video autoplay loop muted>
-        <img src="{{ url_for('video_feed') }}">
-      </video>
-      <div class="video-description">
-     <img class="img-responsive" width="180" height="40" src="/overlay.png" alt="Codeconvey" scale="0">
-      </div>
-   </div>
+
+    <div style="position: relative; z-index: 1;">
+      <img src="{{ url_for('video_feed') }}" style="position: absolute; z-index: 2;" />
+      <div id="overlay_text" style="position: relative; top: 0px; z-index: 3;"></div>
+    </div>
+    <style>
+      #overlay_text {
+          border-left: 2px solid black;
+          height: 400px;
+          position:absolute;
+          left:30px;
+        
+      }
+  </style>
   </body>
 </html>
+
+
+
+
+
