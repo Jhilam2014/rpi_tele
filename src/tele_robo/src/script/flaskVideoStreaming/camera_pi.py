@@ -3,6 +3,7 @@ import time
 import picamera
 from base_camera import BaseCamera
 import numpy as np
+from PIL import Image
 
 class Camera(BaseCamera):
     @staticmethod
@@ -16,8 +17,20 @@ class Camera(BaseCamera):
             # a = np.zeros((720, 1280, 3), dtype=np.uint8)
             # a[360, :, :] = 0xff
             # a[:, 640, :] = 0xff
-            a = np.zeros((400, 400, 3), dtype=np.uint8)
-            camera.add_overlay(a.tobytes(), layer=3, alpha=160)
+            # Load the arbitrarily sized image
+            img = Image.open('overlay.png')
+            # Create an image padded to the required size with
+            # mode 'RGB'
+            pad = Image.new('RGB', (
+                ((img.size[0] + 31) // 32) * 32,
+                ((img.size[1] + 15) // 16) * 16,
+                ))
+            # Paste the original image into the padded one
+            pad.paste(img, (0, 0))
+
+            # Add the overlay with the padded image as the source,
+            # but the original image's dimensions
+            o = camera.add_overlay(pad.tobytes(), size=img.size)
             stream = io.BytesIO()
             for _ in camera.capture_continuous(stream, 'png',
                                                  use_video_port=True):
