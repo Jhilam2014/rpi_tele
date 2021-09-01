@@ -14,6 +14,7 @@ class Camera(BaseCamera):
             camera.resolution = (640,480)
             camera.shutter_speed = 600000
             camera.iso = 800
+            camera.framerate = 24
             # a = np.zeros((720, 1280, 3), dtype=np.uint8)
             # a[360, :, :] = 0xff
             # a[:, 640, :] = 0xff
