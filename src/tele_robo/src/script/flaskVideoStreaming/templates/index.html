@@ -3,10 +3,10 @@
   </head>
   <body>
 
-    <div style="position: relative; z-index: 1;">
-      <img id="video_feed_dev" src="{{ url_for('video_feed') }}" style="position: absolute; z-index: 2;" />
-      <div id="overlay_vertical" style="position: relative; top: 0px; z-index: 3;"></div>
-    </div>
+      <div id="overlay_vertical" style="position: relative; top: 0px; z-index: 2;">
+        <img id="video_feed_dev" src="{{ url_for('video_feed') }}" style="position: absolute; z-index: 3;" />
+      </div>
+
     <style>
       #overlay_vertical {
           border-left: 2px solid black;
@@ -14,9 +14,6 @@
           position:absolute;
           left:50%;
         
-      }
-      #video_feed_dev {
-        width: 100%;
       }
   </style>
   </body>
