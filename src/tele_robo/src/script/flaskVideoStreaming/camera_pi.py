@@ -13,10 +13,11 @@ class Camera(BaseCamera):
             camera.resolution = (1280, 720)
             camera.shutter_speed = 6000000
             camera.iso = 800
-            a = np.zeros((720, 1280, 3), dtype=np.uint8)
-            a[360, :, :] = 0xff
-            a[:, 640, :] = 0xff
-            camera.add_overlay(np.getbuffer(np.zeros((400, 400, 3), dtype=np.uint8)), layer=3, alpha=160)
+            # a = np.zeros((720, 1280, 3), dtype=np.uint8)
+            # a[360, :, :] = 0xff
+            # a[:, 640, :] = 0xff
+            a = np.zeros((400, 400, 3), dtype=np.uint8)
+            camera.add_overlay(a.tobytes(), layer=3, alpha=160)
             stream = io.BytesIO()
             for _ in camera.capture_continuous(stream, 'png',
                                                  use_video_port=True):
