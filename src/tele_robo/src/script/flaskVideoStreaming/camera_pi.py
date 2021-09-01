@@ -12,7 +12,7 @@ class Camera(BaseCamera):
             # let camera warm up
             time.sleep(2)
             camera.resolution = (1280, 720)
-            camera.shutter_speed = 6000000
+            camera.shutter_speed = 60000
             camera.iso = 800
             # a = np.zeros((720, 1280, 3), dtype=np.uint8)
             # a[360, :, :] = 0xff
@@ -31,6 +31,8 @@ class Camera(BaseCamera):
             # Add the overlay with the padded image as the source,
             # but the original image's dimensions
             o = camera.add_overlay(pad.tobytes(), size=img.size)
+            o.alpha = 128
+            o.layer = 3
             stream = io.BytesIO()
             for _ in camera.capture_continuous(stream, 'png',
                                                  use_video_port=True):
