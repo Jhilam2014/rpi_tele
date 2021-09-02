@@ -15,15 +15,10 @@ class Camera(BaseCamera):
             camera.iso = 800
             camera.annotate_text = '+'
 
-          
-
-
             camera.framerate = 24
             stream = io.BytesIO()
-            for frame in camera.capture_continuous(stream, format="bgr",use_video_port=True):
+            for _ in camera.capture_continuous(stream, format="bgr",use_video_port=True):
                 # return current frame
-                image = frame.array
-                print(image)
                 stream.seek(0)
                 yield stream.read()
 
