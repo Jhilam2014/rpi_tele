@@ -5,6 +5,7 @@ import sys
 import glob
 import rospy
 from PyQt5.QtWidgets import *
+from PyQt5.QtWebEngineWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt
 from datetime import date
@@ -34,6 +35,15 @@ class RightLayout(QWidget):
         self.container_2.showMaximized()
         self.container_2.setVisible(False)
         self.motorSet() 
+
+        self.container_3 = QWidget(self)
+        self.container_3.setContentsMargins(0, 0, 0, 0)
+        self.container_3.setFixedSize(w_pix, h_pix)
+        self.container_3.move(x_pos, y_pos)
+        self.container_3.setStyleSheet("background-color:#dedddc;")
+        self.container_3.showMaximized()
+        self.container_3.setVisible(False)
+        self.focuserWidget()
         
     def scrollBarWidget(self,name,vMin,vMax,current):
         #label
@@ -54,6 +64,35 @@ class RightLayout(QWidget):
 
 
         return [label,slider,val]
+
+    def focuserWidget(self):
+        # creating a QWebEngineView
+        self.browser = QWebEngineView(self.container_3)
+        # setting default browser url as google
+        self.browser.setUrl(QUrl("http://192.168.0.203:5000/video_feed"))
+        # adding action when url get changed
+        self.browser.urlChanged.connect(self.update_urlbar)
+        # adding action when loading is finished
+        self.browser.loadFinished.connect(self.update_title)
+        # set this browser as central widget or main window
+        self.setCentralWidget(self.browser)
+        # creating QToolBar for navigation
+        navtb = QToolBar("Navigation")
+        # adding this tool bar tot he main window
+        self.addToolBar(navtb)
+        # similarly for home action
+        home_btn = QAction("Home", self)
+        home_btn.setStatusTip("Go home")
+        home_btn.triggered.connect(self.navigate_home)
+        navtb.addAction(home_btn)
+        # adding a separator in the tool bar
+        navtb.addSeparator()
+        # creating a line edit for the url
+        self.urlbar = QLineEdit()
+        # adding action when return key is pressed
+        self.urlbar.returnPressed.connect(self.navigate_to_url)
+        # adding this to the tool bar
+        navtb.addWidget(self.urlbar)
 
 
     #motor settings:

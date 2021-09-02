@@ -10,7 +10,7 @@ class Camera(BaseCamera):
         with picamera.PiCamera() as camera:
             # let camera warm up
             time.sleep(2)
-            camera.resolution = (640, 400)
+            camera.resolution = (320, 200)
             camera.shutter_speed = 6000000
             camera.iso = 800
             camera.annotate_text = '+'
