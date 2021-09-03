@@ -1,6 +1,7 @@
 window.addEventListener('load', ()=>{
         
   resize();
+  cross();
 });
   var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext("2d");
@@ -22,8 +23,16 @@ function drawX(x, y) {
     ctx.moveTo(x + 2, y - 2);
     ctx.lineTo(x - 2, y + 2);
     ctx.stroke();
+    
 }
 
+function cross(){
+    ctx.strokeStyle = 'green';
+    ctx.beginPath();
+    ctx.moveTo(canvas.width/2, 0);
+    ctx.lineTo(canvas.width/2, canvas.height);
+    ctx.stroke();
+}
 function mouseUp(e) {
     mouseX = e.pageX - canvas.offsetLeft;
     mouseY = e.pageY - canvas.offsetTop;
