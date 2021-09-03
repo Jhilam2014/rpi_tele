@@ -8,12 +8,12 @@ canvas.addEventListener("mouseup", mouseUp, false);
 function drawX(x, y) {
     ctx.beginPath();
     ctx.strokeStyle = 'white';
-    ctx.moveTo(x - 20, y - 20);
-    ctx.lineTo(x + 20, y + 20);
+    ctx.moveTo(x - 2, y - 2);
+    ctx.lineTo(x + 2, y + 2);
     ctx.stroke();
 
-    ctx.moveTo(x + 20, y - 20);
-    ctx.lineTo(x - 20, y + 20);
+    ctx.moveTo(x + 2, y - 2);
+    ctx.lineTo(x - 2, y + 2);
     ctx.stroke();
 }
 
