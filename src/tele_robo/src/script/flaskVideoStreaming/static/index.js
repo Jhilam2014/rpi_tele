@@ -7,7 +7,7 @@ canvas.addEventListener("mouseup", mouseUp, false);
 
 function drawX(x, y) {
     ctx.beginPath();
-    
+    ctx.strokeStyle = 'white';
     ctx.moveTo(x - 20, y - 20);
     ctx.lineTo(x + 20, y + 20);
     ctx.stroke();
@@ -20,5 +20,6 @@ function drawX(x, y) {
 function mouseUp(e) {
     mouseX = e.pageX - canvas.offsetLeft;
     mouseY = e.pageY - canvas.offsetTop;
+    console.log(mouseX,mouseY)
     drawX(mouseX, mouseY);
 }
