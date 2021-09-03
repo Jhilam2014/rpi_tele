@@ -78,37 +78,13 @@
 document.getElementById("canvas").addEventListener("click", function(e){
   var xPos = e.pageX - this.offsetLeft, 
       yPos = e.pageY - this.offsetTop;
-  addMarkerImages(chart, xPos, yPos);
+      console.log(xPos,yPos);
+  addCrossHair(xPos, yPos);
 });
-
-
-var customMarkers= [];
-
-function addMarkerImages(chart, xPos, yPos){
-  var container = $('<div/>').css("height", 30)
-  .css("width", 30)
-  .addClass("imageToolTip");
-  var toolTip = $('<span class="tooltiptext">Information to be shown on mouseover</span>');
+var container = document.getElementById('canvas');
+function addCrossHair(x,y){
   var img = $("<img>").attr("src", "https://i.imgur.com/TUmQf5n.png")
   .css("height", 30)
   .css("width", 30);
-  img.appendTo(container);
-  toolTip.appendTo(container);
-  customMarkers.push(
-    {
-      container: container.appendTo($("#chartContainer>.canvasjs-chart-container")),
-      xPos: xPos, 
-      yPos: yPos, 
-      xValue: Math.round(chart.axisX[0].convertPixelToValue(xPos)),
-      yValue: Math.round(chart.axisY[0].convertPixelToValue(yPos)) 
-    });        
-  positionMarkerImage(customMarkers[customMarkers.length - 1].container, customMarkers[customMarkers.length - 1].xPos , customMarkers[customMarkers.length - 1].yPos); 
-}
-
-function positionMarkerImage(customMarker, xPos, yPos){ 
-  customMarker.css({"position": "absolute", 
-                    "display": "block",
-                    "top": yPos - customMarker.height()/2,
-                    "left": xPos - customMarker.width()/2
-                   });
+  container.appendChild(img);
 }
