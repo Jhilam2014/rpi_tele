@@ -1,10 +1,17 @@
-var canvas = document.getElementById('canvas');
+window.addEventListener('load', ()=>{
+        
+  resize();
+});
+  var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext("2d");
 
 var mouseX, mouseY;
 
 canvas.addEventListener("mouseup", mouseUp, false);
-
+function resize(){
+  ctx.canvas.width = window.innerWidth;
+  ctx.canvas.height = window.innerHeight;
+  }
 function drawX(x, y) {
     ctx.beginPath();
     ctx.strokeStyle = 'white';
