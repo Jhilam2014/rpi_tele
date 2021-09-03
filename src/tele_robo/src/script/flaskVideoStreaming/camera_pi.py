@@ -13,7 +13,6 @@ class Camera(BaseCamera):
             camera.resolution = (320, 200)
             camera.shutter_speed = 6000000
             camera.iso = 800
-            camera.annotate_text = '+'
 
             camera.framerate = 24
             stream = io.BytesIO()
