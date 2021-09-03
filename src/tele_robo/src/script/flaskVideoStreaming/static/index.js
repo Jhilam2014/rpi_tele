@@ -27,10 +27,14 @@ function drawX(x, y) {
 }
 
 function cross(){
-    ctx.strokeStyle = 'green';
+    ctx.strokeStyle = '#FFFC91';
     ctx.beginPath();
     ctx.moveTo(canvas.width/2, 0);
     ctx.lineTo(canvas.width/2, canvas.height);
+    ctx.stroke();
+
+    ctx.moveTo(0, canvas.height/2);
+    ctx.lineTo(canvas.width, canvas.height/2);
     ctx.stroke();
 }
 function mouseUp(e) {
