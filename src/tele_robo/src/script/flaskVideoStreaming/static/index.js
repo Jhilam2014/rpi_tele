@@ -75,7 +75,7 @@
 //   ctx.stroke();
 // }
 
-$("#canvas").addEventListener("click", function(e){
+document.getElementById("canvas").addEventListener("click", function(e){
   var xPos = e.pageX - this.offsetLeft, 
       yPos = e.pageY - this.offsetTop;
       console.log(xPos,yPos);
@@ -88,4 +88,3 @@ function addCrossHair(x,y){
   .css("width", 30);
   container.appendChild(img);
 }
-
