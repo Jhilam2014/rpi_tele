@@ -10,11 +10,13 @@ class Camera(BaseCamera):
         with picamera.PiCamera() as camera:
             # let camera warm up
             camera.resolution = (640, 480)
-            camera.shutter_speed = 60000000
+            camera.shutter_speed = 6*10**5
             
             camera.iso = 800
-
-            camera.framerate = 12
+            camera.current_analog_gain = 12.0
+            camera.current_awb_mode = "off"
+            camera.drc = 'high'
+            camera.framerate = 6
             time.sleep(10)
             camera.exposure_mode = 'off'
             stream = io.BytesIO()
