@@ -13,7 +13,6 @@ class Camera(BaseCamera):
             camera.shutter_speed = 6*10**5
             
             camera.iso = 800
-            camera.analog_gain = 12.0
             camera.awb_mode = "off"
             camera.drc = 'high'
             camera.framerate = 6
