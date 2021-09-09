@@ -10,8 +10,8 @@ class Camera(BaseCamera):
     def frames():
         with picamera.PiCamera() as camera:
             # let camera warm up
-            camera.resolution = (640, 480)
-            camera.shutter_speed = 6*10**5
+            camera.resolution = (1920, 1080)
+            camera.shutter_speed = 55000000
             
             camera.iso = 800
             camera.awb_mode = "off"
