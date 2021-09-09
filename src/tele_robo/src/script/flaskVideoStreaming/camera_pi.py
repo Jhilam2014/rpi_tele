@@ -8,7 +8,7 @@ import numpy as np
 class Camera(BaseCamera):
     @staticmethod
     def frames():
-        with picamera.PiCamera(resolution=(4056, 3040), framerate=Fraction(1, 6)) as camera:
+        with picamera.PiCamera() as camera:
             # let camera warm up
             camera.resolution = (640, 480)
             camera.shutter_speed = 6*10**5
