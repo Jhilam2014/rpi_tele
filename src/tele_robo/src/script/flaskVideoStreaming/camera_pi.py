@@ -15,8 +15,8 @@ class Camera(BaseCamera):
             
             camera.iso = 800
             camera.awb_mode = "off"
-            camera.framerate = 6
-            time.sleep(10)
+            camera.framerate = 3
+            time.sleep(2)
             # camera.exposure_mode = 'off'
             stream = io.BytesIO()
             for _ in camera.capture_continuous(stream, 'jpeg',
