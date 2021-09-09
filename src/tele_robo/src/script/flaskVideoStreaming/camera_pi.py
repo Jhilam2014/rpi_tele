@@ -11,11 +11,11 @@ class Camera(BaseCamera):
         with picamera.PiCamera() as camera:
             # let camera warm up
             camera.resolution = (1920, 1080)
-            camera.shutter_speed = 55000000
+            camera.shutter_speed = 6*10**5
             test_shutter_speed = camera.exposure_speed
             camera.iso = 800
             camera.awb_mode = "off"
-            camera.framerate = 3
+            camera.framerate = 1/9
             camera.awb_gains = 2.0
             time.sleep(2)
             # camera.exposure_mode = 'off'
