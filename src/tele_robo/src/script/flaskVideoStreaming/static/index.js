@@ -1,7 +1,7 @@
 window.addEventListener('load', ()=>{
         
   resize();
-  cross();
+  axis();
 });
   var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext("2d");
@@ -26,7 +26,7 @@ function drawX(x, y) {
     
 }
 
-function cross(){
+function axis(){
     ctx.strokeStyle = '#FFFC91';
     ctx.beginPath();
     ctx.moveTo(canvas.width/2, 0);

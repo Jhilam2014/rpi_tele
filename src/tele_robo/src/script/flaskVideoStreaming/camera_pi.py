@@ -9,10 +9,8 @@ class Camera(BaseCamera):
     @staticmethod
     def frames():
         with picamera.PiCamera() as camera:
-            # let camera warm up
             camera.resolution = (1920, 1080)
-            camera.shutter_speed = 6*10**5
-            test_shutter_speed = camera.exposure_speed
+            camera.shutter_speed = 10*10**5
             camera.iso = 800
             camera.awb_mode = "off"
             camera.framerate = 1/9
@@ -29,4 +27,3 @@ class Camera(BaseCamera):
                 # reset stream for next frame
                 stream.seek(0)
                 stream.truncate()
-                print(test_shutter_speed)

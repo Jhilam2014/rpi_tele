@@ -106,6 +106,21 @@ class MotorControl:
             GPIO.output(self.PIN_INPUT_ALT_1,GPIO.LOW)
             GPIO.output(self.PIN_INPUT_ALT_2,GPIO.HIGH)
 
+    def hrRun(self,speed,dirV):
+        self.stopHRMotor = True
+        speed = float(speed)/float(10)
+        rospy.loginfo(str(speed))
+        self.pulseWidthHr.stop()
+        self.pulseWidthHr.start(speed)
+        if dirV==1:
+            rospy.loginfo("right")
+            GPIO.output(self.PIN_INPUT_HR_1,GPIO.HIGH)
+            GPIO.output(self.PIN_INPUT_HR_2,GPIO.LOW)
+        else:
+            rospy.loginfo("left")
+            GPIO.output(self.PIN_INPUT_HR_1,GPIO.LOW)
+            GPIO.output(self.PIN_INPUT_HR_2,GPIO.HIGH)
+
     def tracking(self,xIn,yIn):
         initSpeedController = SpeedController()
         speed = initSpeedController.motionControl(xIn,yIn)
@@ -145,20 +160,7 @@ class MotorControl:
 
     
     
-    def hrRun(self,speed,dirV):
-        self.stopHRMotor = True
-        speed = float(speed)/float(10)
-        rospy.loginfo(str(speed))
-        self.pulseWidthHr.stop()
-        self.pulseWidthHr.start(speed)
-        if dirV==1:
-            rospy.loginfo("right")
-            GPIO.output(self.PIN_INPUT_HR_1,GPIO.HIGH)
-            GPIO.output(self.PIN_INPUT_HR_2,GPIO.LOW)
-        else:
-            rospy.loginfo("left")
-            GPIO.output(self.PIN_INPUT_HR_1,GPIO.LOW)
-            GPIO.output(self.PIN_INPUT_HR_2,GPIO.HIGH)
+    
     
 if __name__ == '__main__':
     rospy.init_node('motor_control')
