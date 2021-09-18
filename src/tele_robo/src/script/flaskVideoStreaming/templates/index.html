@@ -15,14 +15,40 @@
       }
   </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ 
   </head>
-  <body>
+      
     <img src="{{ url_for('video_feed') }}" style="position: absolute;width: 100%;left:0px;height:100%;top: 0px;">
+    <!-- <img src="/static/1.png" style="position: absolute;width: 100%;left:0px;height:100%;top: 0px;"> -->
+  
+      <div id="list" style="position: absolute;width: 100%;left:0%;height:100%;top: 0px;display: block;">
+        <table>
+          <tr>
+            <td>
+              <label for="objects" style="color: azure;">Pick a Ref object</label>
+              <div style="border: 1px solid black; color: blanchedalmond;" id="objects" >Select</div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div id='cusDso' style="position: relative;width: 100%;left:0px;height:100%;top: -3px;display: block;">
+                <label for="objects" style="color: azure;">cus radius </label>
+                <input type="text" id="customRadius" name="fname" style="top:5px;
+                position: relative;width: 40px;"> 
+              </div>
+            </td>
+          </tr>
+        </table>
+        
+        
+      </div>
     <canvas id="canvas" style="position: absolute;width: 100%;left:0px;height:100%;top: 0px;">
-      <img src="https://i.imgur.com/TUmQf5n.png"/>
+     
     </canvas>
+   
   </body>
   <script src="{{url_for('static', filename='index.js')}}"></script>
-
+  <!-- <script src="/static/index.js"></script> -->
   </script>
 </html>
