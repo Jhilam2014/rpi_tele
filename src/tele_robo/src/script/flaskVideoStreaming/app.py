@@ -14,10 +14,13 @@ from camera_pi import Camera
 
 app = Flask(__name__)
 
-
+ss,fr = 1
 @app.route('/')
 def index():
     """Video streaming home page."""
+    args = request.args
+    ss= args['ss']
+    fr = args['fr']
     return render_template('index.html')
 
 
@@ -32,9 +35,7 @@ def gen(camera):
 @app.route('/video_feed')
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
-    args = request.args
-    ss= args['ss']
-    fr = args['fr']
+    print("==>",ss,fr)
     return Response(gen(Camera(shutter_speed=int(ss),frame_rate=1/int(fr))),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
