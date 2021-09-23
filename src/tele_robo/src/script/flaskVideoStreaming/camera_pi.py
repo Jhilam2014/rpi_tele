@@ -13,11 +13,11 @@ class Camera(BaseCamera):
         with picamera.PiCamera() as camera:
             print ('<==',shutterSpeed,frameRate)
             camera.resolution = (1920, 1080)
-            camera.shutter_speed = 10*10**int(5)
+            camera.shutter_speed = 10*10**int(shutterSpeed)
             camera.iso = 800
             camera.awb_mode = "off"
             try:
-                camera.framerate = 1/9
+                camera.framerate = 1/int(frameRate)
             except Exception as error:
                 print(error)
                 camera.framerate = 1/6
