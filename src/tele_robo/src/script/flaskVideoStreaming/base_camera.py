@@ -57,13 +57,15 @@ class BaseCamera(object):
     last_access = 0  # time of last client access to the camera
     event = CameraEvent()
 
-    def __init__(self):
+    def __init__(self,**parms):
         """Start the background camera thread if it isn't running yet."""
+        self.shutterSpeed = parms.get('shutter_speed',5)
+        self.frameRate = parms.get('frame_rate',1/9)
         if BaseCamera.thread is None:
             BaseCamera.last_access = time.time()
 
             # start background frame thread
-            BaseCamera.thread = threading.Thread(target=self._thread)
+            BaseCamera.thread = threading.Thread(target=self._thread,args=(self.shutterSpeed,self.frameRate,))
             BaseCamera.thread.start()
 
             # wait until frames are available
@@ -86,10 +88,10 @@ class BaseCamera(object):
         raise RuntimeError('Must be implemented by subclasses.')
 
     @classmethod
-    def _thread(cls):
+    def _thread(cls,ss,frmrt):
         """Camera background thread."""
         print('Starting camera thread.')
-        frames_iterator = cls.frames()
+        frames_iterator = cls.frames(shutter_speed=ss,frame_rate=frmrt)
         for frame in frames_iterator:
             BaseCamera.frame = frame
             BaseCamera.event.set()  # send signal to clients

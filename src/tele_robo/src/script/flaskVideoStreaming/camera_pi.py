@@ -7,13 +7,15 @@ import numpy as np
 
 class Camera(BaseCamera):
     @staticmethod
-    def frames():
+    def frames(**parameters):
+        shutterSpeed = parameters.get('shutter_speed',5)
+        frameRate = parameters.get('frame_rate',1/9)
         with picamera.PiCamera() as camera:
             camera.resolution = (1920, 1080)
-            camera.shutter_speed = 10*10**5
+            camera.shutter_speed = 10*10**int(shutterSpeed)
             camera.iso = 800
             camera.awb_mode = "off"
-            camera.framerate = 1/9
+            camera.framerate = frameRate
             camera.awb_gains = 2.0
             time.sleep(2)
             # camera.exposure_mode = 'off'
