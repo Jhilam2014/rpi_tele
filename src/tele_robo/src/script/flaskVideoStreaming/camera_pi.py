@@ -9,7 +9,7 @@ class Camera(BaseCamera):
     @staticmethod
     def frames(**parameters):
         shutterSpeed = parameters.get('shutter_speed',5)
-        frameRate = parameters.get('frame_rate',9)
+        frameRate = parameters.get('frame_rate',1/6)
         with picamera.PiCamera() as camera:
             print ('<==',shutterSpeed,frameRate)
             camera.resolution = (1920, 1080)

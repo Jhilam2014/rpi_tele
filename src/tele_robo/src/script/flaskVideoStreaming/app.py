@@ -39,7 +39,7 @@ def video_feed():
     global ss,fr
     """Video streaming route. Put this in the src attribute of an img tag."""
     print("==>",ss,fr)
-    return Response(gen(Camera(shutter_speed=int(ss),frame_rate=1/int(fr))),
+    return Response(gen(Camera(shutter_speed=int(ss),frame_rate=int(fr))),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 

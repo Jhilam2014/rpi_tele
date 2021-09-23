@@ -60,7 +60,7 @@ class BaseCamera(object):
     def __init__(self,**parms):
         """Start the background camera thread if it isn't running yet."""
         self.shutterSpeed = parms.get('shutter_speed',5)
-        self.frameRate = parms.get('frame_rate',1/9)
+        self.frameRate = parms.get('frame_rate',6)
         if BaseCamera.thread is None:
             BaseCamera.last_access = time.time()
 
