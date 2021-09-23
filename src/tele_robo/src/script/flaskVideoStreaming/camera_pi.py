@@ -17,7 +17,7 @@ class Camera(BaseCamera):
             camera.iso = 800
             camera.awb_mode = "off"
             try:
-                camera.framerate = frameRate
+                camera.framerate = 1/frameRate
             except Exception as error:
                 print(error)
                 camera.framerate = 1/6
