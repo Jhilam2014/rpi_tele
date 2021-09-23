@@ -20,7 +20,8 @@ fr = 1
 def index():
     """Video streaming home page."""
     args = request.args
-    ss= args['ss']
+    global ss,fr
+    ss = args['ss']
     fr = args['fr']
     return render_template('index.html')
 
@@ -35,6 +36,7 @@ def gen(camera):
 
 @app.route('/video_feed')
 def video_feed():
+    global ss,fr
     """Video streaming route. Put this in the src attribute of an img tag."""
     print("==>",ss,fr)
     return Response(gen(Camera(shutter_speed=int(ss),frame_rate=1/int(fr))),
