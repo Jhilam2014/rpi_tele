@@ -16,10 +16,11 @@ class Camera(BaseCamera):
             camera.shutter_speed = 10*10**int(shutterSpeed)
             camera.iso = 800
             camera.awb_mode = "off"
-            if (frameRate == None) or (frameRate == 0):
+            try:
+                camera.framerate = frameRate
+            except Exception as error:
+                print(error)
                 camera.framerate = 1/6
-            else:
-                camera.framerate = 1/int(frameRate)
             camera.awb_gains = 2.0
             time.sleep(2)
             # camera.exposure_mode = 'off'
