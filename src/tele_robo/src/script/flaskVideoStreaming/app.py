@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from importlib import import_module
 import os
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, request
 
 # import camera driver
 if os.environ.get('CAMERA'):
@@ -32,7 +32,10 @@ def gen(camera):
 @app.route('/video_feed')
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen(Camera(shutter_speed=5,frame_rate=1/9)),
+    args = request.args
+    ss= args['ss']
+    fr = args['fr']
+    return Response(gen(Camera(shutter_speed=int(ss),frame_rate=1/int(fr))),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
