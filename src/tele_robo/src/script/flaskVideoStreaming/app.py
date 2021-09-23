@@ -14,7 +14,8 @@ from camera_pi import Camera
 
 app = Flask(__name__)
 
-ss,fr = 1
+ss = 1
+fr = 1
 @app.route('/')
 def index():
     """Video streaming home page."""
