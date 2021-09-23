@@ -11,6 +11,7 @@ class Camera(BaseCamera):
         shutterSpeed = parameters.get('shutter_speed',5)
         frameRate = parameters.get('frame_rate',1/9)
         with picamera.PiCamera() as camera:
+            print ('<==',shutterSpeed,frameRate)
             camera.resolution = (1920, 1080)
             camera.shutter_speed = 10*10**int(shutterSpeed)
             camera.iso = 800
