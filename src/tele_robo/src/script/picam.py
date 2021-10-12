@@ -24,19 +24,19 @@ class CameraFunctions:
 
     def cameraCheck(self):
         try:
-            self.cam.resolution = (400,300)
+            self.cam.resolution = (800,600)
         except:
             self.__init__()
-            self.cam.resolution = (400,300)
+            self.cam.resolution = (800,600)
 
     def view(self):
         self.cameraCheck()
-        self.cam.start_preview(fullscreen=False, window = (3, 120, 400, 300))
+        self.cam.start_preview(fullscreen=False, window = (3, 120, 800, 600))
         self.cam.framerate = 30
        
     def trackingView(self):
         self.cameraCheck()
-        self.cam.start_preview(fullscreen=False, window = (3, 120, 400, 300))
+        self.cam.start_preview(fullscreen=False, window = (3, 120, 800, 600))
         self.cam.framerate = 30
         initMotorControl = MotorControl()
         initMotorControl.gpioPinSetup()
