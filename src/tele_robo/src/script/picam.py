@@ -92,16 +92,7 @@ class CameraFunctions:
         self.cam.stop_preview()
         
 
-    def takePicCon(self,nI,name):
-        try:
-            self.cam.close()
-        except Exception as e:
-            print(e)
-        try:
-            today= date.today()
-            os.system('mkdir images/'+str(today.strftime("%d-%m-%Y")))
-        except:
-            pass
+    def takePicCon(self,nI):
         for _ in range(int(nI)):
             self.takePic()
  
@@ -117,10 +108,10 @@ class CameraFunctions:
         except:
             pass
         os.system('raspivid -t 30000'+\
-            ' -w 1920'+\
-            ' -h 1080'+\
-            ' -fps 30'+\
+            ' -w 4056'+\
+            ' -h 3040'+\
+            ' -fps 25'+\
             ' -b 25000000'+\
-            ' -o video/'+str(today.strftime("%d-%m-%Y"))+"/"+str(int(time.time()))+'.mp4')
+            ' -o video/'+str(today.strftime("%d-%m-%Y"))+"/"+str(int(time.time()))+'.h264')
 
     

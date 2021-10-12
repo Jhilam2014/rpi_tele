@@ -41,8 +41,7 @@ class Camera:
                 self.takePicture()
             elif(msg_type[1]=='s102'):
                 numberOfImages = msg_type[2].split(':')[1]
-                nameOfObject = msg_type[3].split(':')[1]
-                self.takePictureContinue(numberOfImages,nameOfObject)
+                self.takePictureContinue(numberOfImages)
             elif(msg_type[1]=='s103'):
                 self.videoCapture()
 
@@ -76,8 +75,8 @@ class Camera:
     def takePicture(self):
         self.initCam.takePic()
 
-    def takePictureContinue(self,nImg,name):
-        self.initCam.takePicCon(nImg,name)
+    def takePictureContinue(self,nImg):
+        self.initCam.takePicCon(nImg)
 
     def videoCapture(self):
         self.initCam.videoCapture()

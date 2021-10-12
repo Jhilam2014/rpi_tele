@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt
 from datetime import date
+import time
 
 class RightLayout(QWidget):
     def __init__(self, parent):        
@@ -284,8 +285,7 @@ class RightLayout(QWidget):
         )
         
     def onClickLongShot(self):
-        os.system('rostopic pub -1 /cam_control std_msgs/String capture_s102_img:'+str(self.numberImageGroup[1].value())+  \
-            '_name:test')
+        os.system('rostopic pub -1 /cam_control std_msgs/String capture_s102_img:'+str(self.numberImageGroup[1].value()))
     def onClickVideo(self):
         os.system('rostopic pub -1 /cam_control std_msgs/String capture_s103_img')
     def onClickqv(self):
