@@ -186,7 +186,7 @@ class RightLayout(QWidget):
         self.awbToggle.clicked.connect(self.awbMode)
         
         #awb_gain if awb mode is off only
-        self.awbGainGroup = self.scrollBarWidget('awb gain',0,8,0)
+        self.awbGainGroup = self.scrollBarWidget('awb gain',0,80,0)
 
 
         #mainTab and other 2 tabs

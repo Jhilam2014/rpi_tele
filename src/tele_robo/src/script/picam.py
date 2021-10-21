@@ -71,8 +71,8 @@ class CameraFunctions:
             self.current_awb_mode = copy.deepcopy('off')
             self.cam.awb_mode = 'off'
 
-        self.current_awb_gain = copy.deepcopy(float(_awbGain))
-        self.cam.awb_gains = float(_awbGain)
+        self.current_awb_gain = copy.deepcopy(float(_awbGain)/10.0)
+        self.cam.awb_gains = float(_awbGain)/10.0
         print("\n\n============>",self.cam.analog_gain)
 
 
