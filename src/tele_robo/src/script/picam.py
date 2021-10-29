@@ -8,6 +8,7 @@ import os,sys
 from datetime import date, datetime
 from fractions import Fraction
 import copy
+import rospy
 
 class CameraFunctions:
 
@@ -57,7 +58,7 @@ class CameraFunctions:
         self.cam.iso = int(_iso)
 
         self.current_shutter_speed = copy.deepcopy(int(_shutter)*10**3)
-        self.cam.shutter_speed = int(_shutter)*10**3
+        self.cam.shutter_speed = int(_shutter)*10**4
 
         self.current_frame_rate = copy.deepcopy(int(_frames))
         self.cam.framerate = int(_frames)
@@ -95,6 +96,7 @@ class CameraFunctions:
     def takePicCon(self,nI):
         for i in range(int(nI)):
             print(i)
+            rospy.log(i)
             self.takePic()
  
 
