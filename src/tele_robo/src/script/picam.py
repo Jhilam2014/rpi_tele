@@ -96,7 +96,6 @@ class CameraFunctions:
     def takePicCon(self,nI):
         for i in range(int(nI)):
             print(i)
-            rospy.log(i)
             self.takePic()
  
 
