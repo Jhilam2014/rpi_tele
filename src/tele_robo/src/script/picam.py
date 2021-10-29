@@ -57,7 +57,7 @@ class CameraFunctions:
         self.cam.iso = int(_iso)
 
         self.current_shutter_speed = copy.deepcopy(int(_shutter)*10**3)
-        self.cam.shutter_speed = int(_shutter)*10**3
+        self.cam.shutter_speed = int(_shutter)*10**5
 
         self.current_frame_rate = copy.deepcopy(int(_frames))
         self.cam.framerate = int(_frames)
@@ -93,7 +93,8 @@ class CameraFunctions:
         
 
     def takePicCon(self,nI):
-        for _ in range(int(nI)):
+        for i in range(int(nI)):
+            print(i)
             self.takePic()
  
 
